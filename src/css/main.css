@@ -1,0 +1,156 @@
+:root {
+  --light-gray: #babecc;
+  --background: #e0e5ec;
+  --light: #f2f3f5;
+  --dark-gray: rgb(70, 70, 70);
+  --purple: #9e78a7;
+  --light-purple: #a384aa;
+  --orange: #dbb979;
+  --light-orange: #dbc08d;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: var(--background);
+  font-family: 'Montserrat', sans-serif;
+  outline: none;
+  font-weight: normal;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calculator-grid {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px var(--light-gray), -5px -5px 10px var(--light);
+}
+
+.calculator-grid > button {
+  cursor: pointer;
+  text-align: center;
+  font-size: 17px;
+  display: grid;
+  place-content: center;
+  border: none;
+  color: var(--dark-gray);
+  box-shadow: 5px 5px 10px var(--light-gray), -5px -5px 10px var(--light);
+  margin: 8px;
+}
+
+.round {
+  border-radius: 50%;
+}
+
+.round:hover {
+  background: var(--light-gray);
+}
+.span-two {
+  grid-column: span 2;
+  border-radius: 20px;
+}
+
+.output {
+  box-shadow: inset 5px 5px 10px var(--light-gray),
+    inset -5px -5px 10px var(--light);
+  border: none;
+  border-radius: 10px;
+  color: var(--dark-gray);
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  flex-direction: column;
+  padding: 10px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.output .previous-operand {
+  color: var(--dark-gray);
+  font-size: 1.5rem;
+}
+
+.output .current-operand {
+  color: var(--dark-gray);
+  font-size: 2.5rem;
+}
+
+.equal-btn {
+  background-color: var(--purple);
+}
+
+.equal-btn:hover {
+  background-color: var(--light-purple);
+}
+
+.orange {
+  background-color: var(--orange);
+}
+
+.orange:hover {
+  background-color: var(--light-orange);
+}
+
+.img {
+  width: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+}
+
+.astronaut {
+  top: 10%;
+  right: 10%;
+  transform: rotate(30deg);
+}
+
+.planet {
+  left: 8%;
+  bottom: 20%;
+  transform: rotate(15deg);
+}
+
+.spaceship {
+  right: 12%;
+  bottom: 5%;
+}
+
+.galaxy {
+  width: 70px;
+  left: 17%;
+  top: 18%;
+}
+
+.title {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  line-height: 1em;
+  color: #9e78a7;
+  font-weight: bold;
+  font-size: 80px;
+  text-shadow: 0px 0px 0 rgb(140, 102, 149), 1px 1px 0 rgb(132, 94, 141),
+    2px 2px 0 rgb(124, 86, 133), 3px 3px 0 rgb(116, 78, 125),
+    4px 4px 0 rgb(108, 70, 117), 5px 5px 0 rgb(100, 62, 109),
+    6px 6px 0 rgb(92, 54, 101), 7px 7px 6px rgba(0, 0, 0, 0.4),
+    7px 7px 1px rgba(0, 0, 0, 0.5), 0px 0px 6px rgba(0, 0, 0, 0.2);
+}
