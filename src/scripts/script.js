@@ -78,7 +78,10 @@ const choseOperation = (operator) => {
   }
   if (previousResult !== '') {
     const previous = previousOperand.innerText;
-    if (isFinite(actualResult) && previous[previous.length - 1] === '÷') {
+    if (
+      actualResult.toString() === '0' &&
+      previous[previous.length - 1] === '÷'
+    ) {
       return allClearFn();
     }
     calculate();
@@ -94,9 +97,18 @@ const choseOperation = (operator) => {
 //będzie przeskakiwał na poprzedni wynik (previousResult)
 
 //****dodatkowy warunek dla dzielenia, aby po dzieleniu przez 0 i otrzymaniu infinite nie pozostawał znak operacji w poprzednim polu wyniku
-//    if (isFinite(actualResult) && previous[previous.length - 1] === '÷') {
-// return allClearFn();
-// } ==> warunek czysci pole jesli pojawi się infinite
+// if (previousResult !== '') {
+//   const previous = previousOperand.innerText;
+//   if (
+//     actualResult.toString() === '0' &&
+//     previous[previous.length - 1] === '÷'
+//   ) {
+//     return allClearFn();
+//   }
+//   calculate();
+// }
+//jesli poprzedni wynik nie jest pusty i jesli istnieje mozliwosc ze dzielimy przez 0
+//i jesli aktualny wynik jest równy 0 i poprzednie pole na koncu zawiera znak ÷ wtedy uzywamy funkcji allClearFn()
 
 //jesli istnieje poprzednie dzialanie (mamy w polu poprzednie dzialanie - jakąś liczbę ) i jeśli klikamy nową operację
 // to wykonujemy ją na poprzednich liczbach w polu => wykonujemy na poprzednich liczbach funkcję calculate()
