@@ -4,11 +4,45 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Nasa Calculator</title>
     <link rel="stylesheet" href="./css/main.css" />
+    <script src="scripts/script.js" defer></script>
   </head>
   <body>
-    <h1>Hello</h1>
-    <h2>Kalkulator</h2>
+    <h1 class="title">Nasa Calculator</h1>
+    <div class="container">
+      <img class="img astronaut" src="./assets/icons/astronaut.png" />
+      <img class="img planet" src="./assets/icons/saturn.png" />
+      <img class="img spaceship" src="./assets/icons/spaceship.png" />
+      <img class="img galaxy" src="./assets/icons/spiral-galaxy.png" />
+      <div class="calculator-grid">
+        <div class="output">
+          <div data-previous-operand class="previous-operand"></div>
+          <div data-current-operand class="current-operand"></div>
+        </div>
+        <button data-all-clear class="span-two orange">AC</button>
+        <button data-delete class="round orange">DEL</button>
+        <button data-operation class="round">÷</button>
+        <button data-number class="round">1</button>
+        <button data-number class="round">2</button>
+        <button data-number class="round">3</button>
+        <button data-operation class="round">*</button>
+        <button data-number class="round">4</button>
+        <button data-number class="round">5</button>
+        <button data-number class="round">6</button>
+        <button data-operation class="round">+</button>
+        <button data-number class="round">7</button>
+        <button data-number class="round">8</button>
+        <button data-number class="round">9</button>
+        <button data-operation class="round">-</button>
+        <button data-number class="round">.</button>
+        <button data-number class="round">0</button>
+        <button data-equals class="span-two equal-btn">=</button>
+      </div>
+    </div>
   </body>
 </html>
