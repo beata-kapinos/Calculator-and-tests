@@ -102,3 +102,24 @@ const choseOperation = (operator) => {
 // to wykonujemy ją na poprzednich liczbach w polu => wykonujemy na poprzednich liczbach funkcję calculate()
 
 //***************************************/
+
+// UPDATE
+const updateResultFn = () => {
+  currentOperand.innerText = actualResult;
+
+  if (operation != null) {
+    previousOperand.innerText = previousResult + operation;
+  } else {
+    previousOperand.innerText = '';
+  }
+};
+
+//aktualizacja wyniku
+//funkcja, która po kazdym wykonaniu jakiegos dzialania, bedzie aktualizowala tablice wynikow
+//przypisuje do divow zmienna actualResult / previousResult
+//innerText - wybiera to co, znajduje się w elemencie danej klasy(cala zawartosc diva)
+// jesli aktualnie wybrana operacja (dzialanie) istnieje i nie jest null, to będziemy ją dodawać
+// do poprzedniego dzialania, a jesli jej nie ma to poprzedni wynik będzie pusty
+//jesli nie wykonujemy operacji to poprzedniego dzialania nie będzie
+
+//***************************************/
