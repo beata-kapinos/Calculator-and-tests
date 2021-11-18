@@ -138,3 +138,15 @@ const addNumber = (num) => {
 //sprawdzam również czy aktualny wynik zawiera znak ".", jesli tak wychodzę z funkcji return (nie dodaje kolejnej kropki)
 
 //***************************************/
+
+// DELETE
+const deleteNumber = () => {
+  actualResult = actualResult.toString().slice(0, -1);
+};
+
+//usuniecie liczby z aktualnego dzialania. Aktualne dzialanie zastepujemy, aktualnym dzialaniem z wyciętą ostatnią liczbą
+//dzialanie na stringu metoda  - slice - wycinam wszystkie liczby oprócz tej ostatniej
+//zaczynam od indexu 0 a kończę na przedostatnim -1
+//aktualne dzialanie zostanie zastąpione aktualnym działaniem bez ostatniej liczby
+
+//***************************************/
