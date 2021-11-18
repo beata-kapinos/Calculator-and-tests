@@ -70,3 +70,35 @@ const calculate = () => {
 // i previousResult na "", bo mam już wynik i nie chce mieć poprzedniego
 
 //***************************************/
+
+// CHOSE OPERATION
+const choseOperation = (operator) => {
+  if (actualResult === '') {
+    return;
+  }
+  if (previousResult !== '') {
+    const previous = previousOperand.innerText;
+    if (isFinite(actualResult) && previous[previous.length - 1] === '÷') {
+      return allClearFn();
+    }
+    calculate();
+  }
+
+  operation = operator;
+  previousResult = actualResult;
+  actualResult = '';
+};
+//jesli nie ma zadnego dzialania to wyjdz z funkcji (nie dodawaj operacji)
+// w innym wypadku, jesli jest dzialanie to:
+//po nacisnieciu oparatorów wybieramy operacje tak, żeby się dodawała a nasz aktualny wynik
+//będzie przeskakiwał na poprzedni wynik (previousResult)
+
+//****dodatkowy warunek dla dzielenia, aby po dzieleniu przez 0 i otrzymaniu infinite nie pozostawał znak operacji w poprzednim polu wyniku
+//    if (isFinite(actualResult) && previous[previous.length - 1] === '÷') {
+// return allClearFn();
+// } ==> warunek czysci pole jesli pojawi się infinite
+
+//jesli istnieje poprzednie dzialanie (mamy w polu poprzednie dzialanie - jakąś liczbę ) i jeśli klikamy nową operację
+// to wykonujemy ją na poprzednich liczbach w polu => wykonujemy na poprzednich liczbach funkcję calculate()
+
+//***************************************/
