@@ -158,3 +158,55 @@ const allClearFn = () => {
   previousResult = '';
   operation = undefined;
 };
+
+//***************************************/
+
+//EVENT LISTENERS
+
+//***************************************/
+
+numbers.forEach((item) => {
+  item.addEventListener('click', () => {
+    addNumber(item.innerText);
+    updateResultFn();
+  });
+});
+
+console.log(updateResultFn());
+//nasłuchiwanie klikniecia dla liczb i po kliknieciu bedzie wykonywal nastepujaca funkcje
+//bierzemy zawartosc numbers, i wykonuje funkcje addNumber (po kliknieciu 1 (wykona sie metoda add number ))
+// a nastepnie robie update wynikow
+
+//***************************************/
+
+deleteBtn.addEventListener('click', () => {
+  deleteNumber();
+  updateResultFn();
+});
+
+//bindujemy deleteBtn do którego przypisujemy funkcje deleteNumber,
+// następnie trzeba zaktualizować wynik dlatego => updateResult
+
+//***************************************/
+operators.forEach((operator) => {
+  operator.addEventListener('click', () => {
+    choseOperation(operator.innerText);
+    updateResultFn();
+  });
+});
+
+//bindujemy operatory i dodajemy do nich funkcje  choseOperation() a nastepnie funkcję update
+
+//***************************************/
+
+equalBtn.addEventListener('click', () => {
+  calculate();
+  updateResultFn();
+});
+
+//***************************************/
+
+allClear.addEventListener('click', () => {
+  allClearFn();
+  updateResultFn();
+});
