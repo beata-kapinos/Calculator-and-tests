@@ -123,3 +123,18 @@ const updateResultFn = () => {
 //jesli nie wykonujemy operacji to poprzedniego dzialania nie będzie
 
 //***************************************/
+
+// ADD
+const addNumber = (num) => {
+  if (num === '.') {
+    if (actualResult.includes('.')) {
+      return;
+    }
+  }
+
+  actualResult = actualResult.toString() + num.toString();
+};
+//dodanie kolejnej cyfry na koniec dzialania
+//sprawdzam również czy aktualny wynik zawiera znak ".", jesli tak wychodzę z funkcji return (nie dodaje kolejnej kropki)
+
+//***************************************/
