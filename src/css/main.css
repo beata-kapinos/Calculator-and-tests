@@ -119,7 +119,7 @@ body {
 }
 
 .astronaut {
-  top: 10%;
+  top: 15%;
   right: 10%;
   transform: rotate(30deg);
 }
