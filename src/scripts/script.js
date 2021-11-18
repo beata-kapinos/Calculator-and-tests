@@ -10,3 +10,10 @@ const previousOperand = document.querySelector('.previous-operand');
 //poprzednie działanie
 const currentOperand = document.querySelector('.current-operand');
 //aktualne działanie
+
+//variables
+let actualResult = ''; //zmienna przechowująca wartosc aktualnego działania
+let previousResult = ''; //wartość poprzedniego dzialania
+let operation = undefined; //aktualnie wybrana operacja, jesli klikne +, zmienna zmieni się na +
+
+//***************************************/
