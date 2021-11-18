@@ -150,3 +150,11 @@ const deleteNumber = () => {
 //aktualne dzialanie zostanie zastąpione aktualnym działaniem bez ostatniej liczby
 
 //***************************************/
+
+// ALL-CLEAR
+
+const allClearFn = () => {
+  actualResult = '';
+  previousResult = '';
+  operation = undefined;
+};
