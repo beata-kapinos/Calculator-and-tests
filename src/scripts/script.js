@@ -1,15 +1,15 @@
 const numbers = document.querySelectorAll('.number');
-//wyszukuje elementy - wszystkie o klasie number
-const operators = document.querySelectorAll('.operator');
-//wszystkie operatory
-const allClear = document.querySelector('.all-clear');
-//wyszukuje klasę all-clear
-const deleteBtn = document.querySelector('.delete');
-const equalBtn = document.querySelector('.equal');
-const previousOperand = document.querySelector('.previous-operand');
-//poprzednie działanie
-const currentOperand = document.querySelector('.current-operand');
-//aktualne działanie
+  //wyszukuje elementy - wszystkie o klasie number
+  const operators = document.querySelectorAll('.operator');
+  //wszystkie operatory
+  const allClear = document.querySelector('.all-clear');
+  //wyszukuje klasę all-clear
+  const deleteBtn = document.querySelector('.delete');
+  const equalBtn = document.querySelector('.equal');
+  const previousOperand = document.querySelector('.previous-operand');
+  //poprzednie działanie
+  const currentOperand = document.querySelector('.current-operand');
+  //aktualne działanie
 
 //variables
 let actualResult = ''; //zmienna przechowująca wartosc aktualnego działania
@@ -20,19 +20,25 @@ let operation = undefined; //aktualnie wybrana operacja, jesli klikne +, zmienna
 
 // CALCULATE
 const calculate = () => {
+  actualResult = execOperation(previousResult, actualResult, operation);
+  operation = undefined;
+  previousResult = '';
+}
+
+export const execOperation = (firstOperand, secondOperand, _operation) => {
   let countResult;
 
-  if (!previousResult || !actualResult) {
+  if (!firstOperand || !secondOperand) {
     return;
   }
 
-  const previousParseResult = parseFloat(previousResult);
-  const actualParseResult = parseFloat(actualResult);
+  const previousParseResult = parseFloat(firstOperand);
+  const actualParseResult = parseFloat(secondOperand);
 
   if (isNaN(previousParseResult) || isNaN(actualParseResult)) {
     return;
   }
-  switch (operation) {
+  switch (_operation) {
     case '+':
       countResult = previousParseResult + actualParseResult;
       break;
@@ -51,9 +57,8 @@ const calculate = () => {
     default:
       return;
   }
-  actualResult = countResult;
-  operation = undefined;
-  previousResult = '';
+
+  return countResult;
 };
 
 //jesli nie istnieje poprzednie ani aktualne dzialanie to wychodzimy z funkcji bo jeżeli nie ma dwóch działań to nie możemy wykonać zadnej operacji
@@ -91,6 +96,9 @@ const choseOperation = (operator) => {
   previousResult = actualResult;
   actualResult = '';
 };
+
+
+
 //jesli nie ma zadnego dzialania to wyjdz z funkcji (nie dodawaj operacji)
 // w innym wypadku, jesli jest dzialanie to:
 //po nacisnieciu oparatorów wybieramy operacje tak, żeby się dodawała a nasz aktualny wynik
@@ -177,48 +185,57 @@ const allClearFn = () => {
 
 //***************************************/
 
-numbers.forEach((item) => {
-  item.addEventListener('click', () => {
-    addNumber(item.innerText);
+const initGui = () => {
+  numbers.forEach((item) => {
+    item.addEventListener('click', () => {
+      addNumber(item.innerText);
+      updateResultFn();
+    });
+  });
+
+  // console.log(updateResultFn());
+  //nasłuchiwanie klikniecia dla liczb i po kliknieciu bedzie wykonywal nastepujaca funkcje
+  //bierzemy zawartosc numbers, i wykonuje funkcje addNumber (po kliknieciu 1 (wykona sie metoda add number ))
+  // a nastepnie robie update wynikow
+
+  //***************************************/
+
+  deleteBtn.addEventListener('click', () => {
+    deleteNumber();
     updateResultFn();
   });
-});
 
-console.log(updateResultFn());
-//nasłuchiwanie klikniecia dla liczb i po kliknieciu bedzie wykonywal nastepujaca funkcje
-//bierzemy zawartosc numbers, i wykonuje funkcje addNumber (po kliknieciu 1 (wykona sie metoda add number ))
-// a nastepnie robie update wynikow
+  //bindujemy deleteBtn do którego przypisujemy funkcje deleteNumber,
+  // następnie trzeba zaktualizować wynik dlatego => updateResult
 
-//***************************************/
+  //***************************************/
+  operators.forEach((operator) => {
+    operator.addEventListener('click', () => {
+      choseOperation(operator.innerText);
+      updateResultFn();
+    });
+  });
 
-deleteBtn.addEventListener('click', () => {
-  deleteNumber();
-  updateResultFn();
-});
+  //bindujemy operatory i dodajemy do nich funkcje  choseOperation() a nastepnie funkcję update
 
-//bindujemy deleteBtn do którego przypisujemy funkcje deleteNumber,
-// następnie trzeba zaktualizować wynik dlatego => updateResult
+  //***************************************/
 
-//***************************************/
-operators.forEach((operator) => {
-  operator.addEventListener('click', () => {
-    choseOperation(operator.innerText);
+  equalBtn.addEventListener('click', () => {
+    calculate();
     updateResultFn();
   });
-});
 
-//bindujemy operatory i dodajemy do nich funkcje  choseOperation() a nastepnie funkcję update
+  //***************************************/
 
-//***************************************/
+  allClear.addEventListener('click', () => {
+    allClearFn();
+    updateResultFn();
+  });
+}
 
-equalBtn.addEventListener('click', () => {
-  calculate();
-  updateResultFn();
-});
+document.addEventListener('DOMContentLoaded', () => {
+  initGui();
+})
 
-//***************************************/
+  
 
-allClear.addEventListener('click', () => {
-  allClearFn();
-  updateResultFn();
-});

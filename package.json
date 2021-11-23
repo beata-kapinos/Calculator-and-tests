@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-      "lint": "eslint src/",
-      "lint:fix": "eslint --fix src/"
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,12 @@
   },
   "homepage": "https://github.com/pl-incode/exercise-7-nasa-calculator-kosmiczne-testerki#readme",
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "babel-jest": "^27.3.1",
     "eslint": "^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.3"
+    "eslint-plugin-import": "^2.25.3",
+    "jest": "^27.3.1"
   }
 }
