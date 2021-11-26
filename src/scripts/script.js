@@ -1,58 +1,64 @@
-const numbers = document.querySelectorAll('.number');
-  //wyszukuje elementy - wszystkie o klasie number
-  const operators = document.querySelectorAll('.operator');
-  //wszystkie operatory
-  const allClear = document.querySelector('.all-clear');
-  //wyszukuje klasę all-clear
-  const deleteBtn = document.querySelector('.delete');
-  const equalBtn = document.querySelector('.equal');
-  const previousOperand = document.querySelector('.previous-operand');
-  //poprzednie działanie
-  const currentOperand = document.querySelector('.current-operand');
-  //aktualne działanie
+// const numbers = document.querySelectorAll('.number');
+//   //wyszukuje elementy - wszystkie o klasie number
+//   const operators = document.querySelectorAll('.operator');
+//   //wszystkie operatory
+//   const allClear = document.querySelector('.all-clear');
+//   //wyszukuje klasę all-clear
+//   const deleteBtn = document.querySelector('.delete');
+//   const equalBtn = document.querySelector('.equal');
+  // const previousOperand = document.querySelector('.previous-operand');
+  // //poprzednie działanie
+  // const currentOperand = document.querySelector('.current-operand');
+  // //aktualne działanie
+
+export const getPreviousOperandElement = () => {
+  return document.querySelector('.previous-operand')
+}
+export const getCurrentOperandElement = () => {
+  return document.querySelector('.current-operand')
+}
 
 //variables
-let actualResult = ''; //zmienna przechowująca wartosc aktualnego działania
-let previousResult = ''; //wartość poprzedniego dzialania
-let operation = undefined; //aktualnie wybrana operacja, jesli klikne +, zmienna zmieni się na +
+const initialState = {
+  actualResult: '',  //zmienna przechowująca wartosc aktualnego działania
+  previousResult: '', //wartość poprzedniego dzialania
+  operation: undefined //aktualnie wybrana operacja, jesli klikne +, zmienna zmieni się na +
+}
 
 //***************************************/
 
 // CALCULATE
-const calculate = () => {
-  actualResult = execOperation(previousResult, actualResult, operation);
-  operation = undefined;
-  previousResult = '';
+export const calculate = (state) => {
+  state.actualResult = execOperation(parseFloat(state.previousResult), parseFloat(state.actualResult), state.operation);
+  state.operation = undefined;
+  state.previousResult = '';
+  // if (actualResult === undefined){
+  //   allClearFn()
+  // }
 }
 
 export const execOperation = (firstOperand, secondOperand, _operation) => {
   let countResult;
 
-  if (!firstOperand || !secondOperand) {
+  if (isNaN(firstOperand) || isNaN(secondOperand)) {
     return;
   }
 
-  const previousParseResult = parseFloat(firstOperand);
-  const actualParseResult = parseFloat(secondOperand);
-
-  if (isNaN(previousParseResult) || isNaN(actualParseResult)) {
-    return;
-  }
   switch (_operation) {
     case '+':
-      countResult = previousParseResult + actualParseResult;
+      countResult = firstOperand + secondOperand;
       break;
     case '-':
-      countResult = previousParseResult - actualParseResult;
+      countResult = firstOperand - secondOperand;
       break;
     case '*':
-      countResult = previousParseResult * actualParseResult;
+      countResult = firstOperand * secondOperand;
       break;
     case '÷':
-      if (actualParseResult === 0) {
-        return allClearFn();
+      if (secondOperand === 0) {
+        return;
       }
-      countResult = previousParseResult / actualParseResult;
+      countResult = firstOperand / secondOperand;
       break;
     default:
       return;
@@ -77,24 +83,24 @@ export const execOperation = (firstOperand, secondOperand, _operation) => {
 //***************************************/
 
 // CHOSE OPERATION
-const choseOperation = (operator) => {
-  if (actualResult === '') {
+export const choseOperation = (operator, state) => {
+  if (state.actualResult === '') {
     return;
   }
-  if (previousResult !== '') {
-    const previous = previousOperand.innerText;
-    if (
-      actualResult.toString() === '0' &&
-      previous[previous.length - 1] === '÷'
-    ) {
-      return allClearFn();
-    }
-    calculate();
+  if (state.previousResult !== '') {
+    // const previous = previousOperand.innerText;
+    // if (
+    //   actualResult.toString() === '0' &&
+    //   previous[previous.length - 1] === '÷'
+    // ) {
+    //   return allClearFn();
+    // }
+    calculate(state);
   }
 
-  operation = operator;
-  previousResult = actualResult;
-  actualResult = '';
+  state.operation = operator;
+  state.previousResult = state.actualResult;
+  state.actualResult = '';
 };
 
 
@@ -124,11 +130,16 @@ const choseOperation = (operator) => {
 //***************************************/
 
 // UPDATE
-const updateResultFn = () => {
-  currentOperand.innerText = actualResult;
+export const updateResultFn = (state) => {
+  const currentOperand = getCurrentOperandElement()
+  const previousOperand = getPreviousOperandElement()
 
-  if (operation != null) {
-    previousOperand.innerText = previousResult + operation;
+  console.log(currentOperand, state.actualResult)
+
+  currentOperand.innerText = state.actualResult;
+
+  if (state.operation != null) {
+    previousOperand.innerText = state.previousResult + state.operation;
   } else {
     previousOperand.innerText = '';
   }
@@ -185,7 +196,7 @@ const allClearFn = () => {
 
 //***************************************/
 
-const initGui = () => {
+const initGui = (state) => {
   numbers.forEach((item) => {
     item.addEventListener('click', () => {
       addNumber(item.innerText);
@@ -233,9 +244,12 @@ const initGui = () => {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  initGui();
-})
+// jesli jestesmy w przegladarce a nie tescie
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initGui(initialState);
+  })
+}
 
   
 
