@@ -6,36 +6,40 @@
 //   //wyszukuje klasę all-clear
 //   const deleteBtn = document.querySelector('.delete');
 //   const equalBtn = document.querySelector('.equal');
-  // const previousOperand = document.querySelector('.previous-operand');
-  // //poprzednie działanie
-  // const currentOperand = document.querySelector('.current-operand');
-  // //aktualne działanie
+// const previousOperand = document.querySelector('.previous-operand');
+// //poprzednie działanie
+// const currentOperand = document.querySelector('.current-operand');
+// //aktualne działanie
 
 export const getPreviousOperandElement = () => {
-  return document.querySelector('.previous-operand')
-}
+  return document.querySelector('.previous-operand');
+};
 export const getCurrentOperandElement = () => {
-  return document.querySelector('.current-operand')
-}
+  return document.querySelector('.current-operand');
+};
 
 //variables
 const initialState = {
-  actualResult: '',  //zmienna przechowująca wartosc aktualnego działania
+  actualResult: '', //zmienna przechowująca wartosc aktualnego działania
   previousResult: '', //wartość poprzedniego dzialania
-  operation: undefined //aktualnie wybrana operacja, jesli klikne +, zmienna zmieni się na +
-}
+  operation: undefined, //aktualnie wybrana operacja, jesli klikne +, zmienna zmieni się na +
+};
 
 //***************************************/
 
 // CALCULATE
 export const calculate = (state) => {
-  state.actualResult = execOperation(parseFloat(state.previousResult), parseFloat(state.actualResult), state.operation);
+  state.actualResult = execOperation(
+    parseFloat(state.previousResult),
+    parseFloat(state.actualResult),
+    state.operation
+  );
   state.operation = undefined;
   state.previousResult = '';
   // if (actualResult === undefined){
   //   allClearFn()
   // }
-}
+};
 
 export const execOperation = (firstOperand, secondOperand, _operation) => {
   let countResult;
@@ -84,6 +88,11 @@ export const execOperation = (firstOperand, secondOperand, _operation) => {
 
 // CHOSE OPERATION
 export const choseOperation = (operator, state) => {
+  if (actualResult === '' && operator == '-') {
+    addNumber('-');
+    return;
+  }
+
   if (state.actualResult === '') {
     return;
   }
@@ -102,8 +111,6 @@ export const choseOperation = (operator, state) => {
   state.previousResult = state.actualResult;
   state.actualResult = '';
 };
-
-
 
 //jesli nie ma zadnego dzialania to wyjdz z funkcji (nie dodawaj operacji)
 // w innym wypadku, jesli jest dzialanie to:
@@ -131,10 +138,10 @@ export const choseOperation = (operator, state) => {
 
 // UPDATE
 export const updateResultFn = (state) => {
-  const currentOperand = getCurrentOperandElement()
-  const previousOperand = getPreviousOperandElement()
+  const currentOperand = getCurrentOperandElement();
+  const previousOperand = getPreviousOperandElement();
 
-  console.log(currentOperand, state.actualResult)
+  console.log(currentOperand, state.actualResult);
 
   currentOperand.innerText = state.actualResult;
 
@@ -242,14 +249,11 @@ const initGui = (state) => {
     allClearFn();
     updateResultFn();
   });
-}
+};
 
 // jesli jestesmy w przegladarce a nie tescie
 if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => {
     initGui(initialState);
-  })
+  });
 }
-
-  
-
