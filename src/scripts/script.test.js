@@ -1,5 +1,6 @@
 import { JSDOM } from 'jsdom';
-import { execOperation, calculate, choseOperation, getPreviousOperandElement, getCurrentOperandElement, updateResultFn } from './script.js'
+import { execOperation, calculate, choseOperation, getPreviousOperandElement, getCurrentOperandElement, updateResultFn, initialState, addNumber } from './script.js'
+import { cloneDeep } from 'lodash';
 
 const HTML_TEMPLATE = `
 <h1 class="title">Nasa Calculator</h1>
@@ -47,6 +48,37 @@ describe('calculate', () => {
     
         expect(mockState.actualResult).toBe(4);
     })
+    describe('handle two operations in one session', () => {
+        test('adding and multiplying', () => {
+            const mockState = cloneDeep(initialState);
+
+            // (5 + 3) * 2 = 16
+            addNumber('5', mockState);
+            choseOperation('+', mockState);
+            addNumber('3', mockState);
+            choseOperation('*', mockState);
+            addNumber('2', mockState);
+            calculate(mockState)
+
+            expect(mockState.previousResult).toBe('');
+            expect(mockState.actualResult).toBe(16);
+            expect(mockState.operation).toBeUndefined();
+        })
+    })
+    test('handle negative numbers', () => {
+        const mockState = cloneDeep(initialState);
+        //-6-(-3)
+        choseOperation('-', mockState);
+        addNumber('6', mockState);
+        choseOperation('-', mockState);
+        choseOperation('-', mockState);
+        addNumber('3', mockState);
+        calculate(mockState)
+
+        expect(mockState.previousResult).toBe('');
+        expect(mockState.actualResult).toBe(-3);
+        expect(mockState.operation).toBeUndefined();
+    })
 })
 
 describe('execOperation', () => {
@@ -72,6 +104,22 @@ describe('execOperation', () => {
 )
 
 describe('choseOperation', () => {
+
+    describe('given that actual result is empty and operator is negative', () => {
+        test('perform addNumber function', () => {
+            const mockState = {
+                previousResult: 1,
+                actualResult: '',
+                operation: '-'
+            }
+            choseOperation('-', mockState);
+
+            expect(mockState.previousResult).toBe(1);
+            expect(mockState.actualResult).toBe('-');
+            expect(mockState.operation).toBe('-')
+        })
+    })
+
     describe('given that actual result is empty', () => {
         test('do nothing', () => {
                 const mockState = {
@@ -106,7 +154,17 @@ describe('choseOperation', () => {
         })
         
         test('assign new operation and move actual result into the previous result', () => {
-            
+            const mockState = {
+                previousResult: '',
+                actualResult: 3,
+                operation: ''
+            }
+        
+            choseOperation('+', mockState);
+        
+            expect(mockState.previousResult).toBe(3);
+            expect(mockState.actualResult).toBe('');
+            expect(mockState.operation).toBe('+')
         })
     })
 })

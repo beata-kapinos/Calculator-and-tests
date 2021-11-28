@@ -1,15 +1,22 @@
-// const numbers = document.querySelectorAll('.number');
-//   //wyszukuje elementy - wszystkie o klasie number
-//   const operators = document.querySelectorAll('.operator');
-//   //wszystkie operatory
-//   const allClear = document.querySelector('.all-clear');
-//   //wyszukuje klasę all-clear
-//   const deleteBtn = document.querySelector('.delete');
-//   const equalBtn = document.querySelector('.equal');
-// const previousOperand = document.querySelector('.previous-operand');
-// //poprzednie działanie
-// const currentOperand = document.querySelector('.current-operand');
-// //aktualne działanie
+export const getNumberElements = () => {
+  return document.querySelectorAll('.number');
+}
+
+export const getOperatorElements = () => {
+  return document.querySelectorAll('.operator');
+}
+
+export const getAllClearElement = () => {
+  return document.querySelector('.all-clear');
+}
+
+export const getDeleteBtnElement = () => {
+  return document.querySelector('.delete');
+}
+
+export const getEqualBtnElement = () => {
+  return document.querySelector('.equal');
+}
 
 export const getPreviousOperandElement = () => {
   return document.querySelector('.previous-operand');
@@ -19,7 +26,7 @@ export const getCurrentOperandElement = () => {
 };
 
 //variables
-const initialState = {
+export const initialState = {
   actualResult: '', //zmienna przechowująca wartosc aktualnego działania
   previousResult: '', //wartość poprzedniego dzialania
   operation: undefined, //aktualnie wybrana operacja, jesli klikne +, zmienna zmieni się na +
@@ -36,9 +43,10 @@ export const calculate = (state) => {
   );
   state.operation = undefined;
   state.previousResult = '';
-  // if (actualResult === undefined){
-  //   allClearFn()
-  // }
+  
+  if (state.actualResult === undefined){
+    allClearFn(state)
+  }
 };
 
 export const execOperation = (firstOperand, secondOperand, _operation) => {
@@ -88,12 +96,14 @@ export const execOperation = (firstOperand, secondOperand, _operation) => {
 
 // CHOSE OPERATION
 export const choseOperation = (operator, state) => {
-  if (actualResult === '' && operator == '-') {
-    addNumber('-');
-    return;
+  console.log(state, operator)
+  if (state.actualResult === '' && operator === '-') {
+    if (state.previousResult === '' || state.operation !== undefined) {
+      addNumber('-', state);
+      return;
+    }
   }
-
-  if (state.actualResult === '') {
+  if (state.actualResult === '' || state.actualResult === '-') {
     return;
   }
   if (state.previousResult !== '') {
@@ -163,23 +173,24 @@ export const updateResultFn = (state) => {
 //***************************************/
 
 // ADD
-const addNumber = (num) => {
+export const addNumber = (num, state) => {
   if (num === '.') {
-    if (actualResult.includes('.')) {
+    if (state.actualResult.includes('.')) {
       return;
     }
   }
-
-  actualResult = actualResult.toString() + num.toString();
+console.log('addNumber')
+  state.actualResult = state.actualResult.toString() + num.toString();
 };
+
 //dodanie kolejnej cyfry na koniec dzialania
 //sprawdzam również czy aktualny wynik zawiera znak ".", jesli tak wychodzę z funkcji return (nie dodaje kolejnej kropki)
 
 //***************************************/
 
 // DELETE
-const deleteNumber = () => {
-  actualResult = actualResult.toString().slice(0, -1);
+const deleteNumber = (state) => {
+  state.actualResult = state.actualResult.toString().slice(0, -1);
 };
 
 //usuniecie liczby z aktualnego dzialania. Aktualne dzialanie zastepujemy, aktualnym dzialaniem z wyciętą ostatnią liczbą
@@ -191,10 +202,10 @@ const deleteNumber = () => {
 
 // ALL-CLEAR
 
-const allClearFn = () => {
-  actualResult = '';
-  previousResult = '';
-  operation = undefined;
+const allClearFn = (state) => {
+  state.actualResult = '';
+  state.previousResult = '';
+  state.operation = undefined;
 };
 
 //***************************************/
@@ -204,10 +215,10 @@ const allClearFn = () => {
 //***************************************/
 
 const initGui = (state) => {
-  numbers.forEach((item) => {
+  getNumberElements().forEach((item) => {
     item.addEventListener('click', () => {
-      addNumber(item.innerText);
-      updateResultFn();
+      addNumber(item.innerText, state);
+      updateResultFn(state);
     });
   });
 
@@ -218,19 +229,19 @@ const initGui = (state) => {
 
   //***************************************/
 
-  deleteBtn.addEventListener('click', () => {
-    deleteNumber();
-    updateResultFn();
+  getDeleteBtnElement().addEventListener('click', () => {
+    deleteNumber(state);
+    updateResultFn(state);
   });
 
   //bindujemy deleteBtn do którego przypisujemy funkcje deleteNumber,
   // następnie trzeba zaktualizować wynik dlatego => updateResult
 
   //***************************************/
-  operators.forEach((operator) => {
+  getOperatorElements().forEach((operator) => {
     operator.addEventListener('click', () => {
-      choseOperation(operator.innerText);
-      updateResultFn();
+      choseOperation(operator.innerText, state);
+      updateResultFn(state);
     });
   });
 
@@ -238,16 +249,16 @@ const initGui = (state) => {
 
   //***************************************/
 
-  equalBtn.addEventListener('click', () => {
-    calculate();
-    updateResultFn();
+  getEqualBtnElement().addEventListener('click', () => {
+    calculate(state);
+    updateResultFn(state);
   });
 
   //***************************************/
 
-  allClear.addEventListener('click', () => {
-    allClearFn();
-    updateResultFn();
+  getAllClearElement().addEventListener('click', () => {
+    allClearFn(state);
+    updateResultFn(state);
   });
 };
 
