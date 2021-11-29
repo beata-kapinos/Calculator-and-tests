@@ -1,44 +1,30 @@
-export const getNumberElements = () => {
-  return document.querySelectorAll('.number');
-}
-export const getOperatorElements = () => {
-  return document.querySelectorAll('.operator');
-}
-export const getAllClearElement = () => {
-  return document.querySelector('.all-clear');
-}
-export const getDeleteBtnElement = () => {
-  return document.querySelector('.delete');
-}
-export const getEqualBtnElement = () => {
-  return document.querySelector('.equal');
-}
-export const getPreviousOperandElement = () => {
-  return document.querySelector('.previous-operand');
-};
-export const getCurrentOperandElement = () => {
-  return document.querySelector('.current-operand');
-};
+export const getNumberElements = () => document.querySelectorAll('.number');
+export const getOperatorElements = () => document.querySelectorAll('.operator');
+export const getAllClearElement = () => document.querySelector('.all-clear');
+export const getDeleteBtnElement = () => document.querySelector('.delete');
+export const getEqualBtnElement = () => document.querySelector('.equal');
+export const getPreviousOperandElement = () => document.querySelector('.previous-operand');
+export const getCurrentOperandElement = () => document.querySelector('.current-operand');
 export const initialState = {
-  actualResult: '', 
-  previousResult: '', 
-  operation: undefined, 
+  actualResult: '',
+  previousResult: '',
+  operation: undefined,
 };
 
-//**************************************************************/
+//* *************************************************************/
 
 // CALCULATE
 export const calculate = (state) => {
   state.actualResult = execOperation(
     parseFloat(state.previousResult),
     parseFloat(state.actualResult),
-    state.operation
+    state.operation,
   );
   state.operation = undefined;
   state.previousResult = '';
-  
-  if (state.actualResult === undefined){
-    allClearFn(state)
+
+  if (state.actualResult === undefined) {
+    allClearFn(state);
   }
 };
 
@@ -72,11 +58,10 @@ export const execOperation = (firstOperand, secondOperand, _operation) => {
   return countResult;
 };
 
-//**************************************************************/
+//* *************************************************************/
 
 // CHOSE OPERATION
 export const choseOperation = (operator, state) => {
-  console.log(state, operator)
   if (state.actualResult === '' && operator === '-') {
     if (state.previousResult === '' || state.operation !== undefined) {
       addNumber('-', state);
@@ -95,7 +80,7 @@ export const choseOperation = (operator, state) => {
   state.actualResult = '';
 };
 
-//**************************************************************/
+//* *************************************************************/
 
 // UPDATE
 export const updateResultFn = (state) => {
@@ -113,7 +98,7 @@ export const updateResultFn = (state) => {
   }
 };
 
-//**************************************************************/
+//* *************************************************************/
 
 // ADD
 export const addNumber = (num, state) => {
@@ -122,18 +107,18 @@ export const addNumber = (num, state) => {
       return;
     }
   }
-console.log('addNumber')
+  console.log('addNumber');
   state.actualResult = state.actualResult.toString() + num.toString();
 };
 
-//**************************************************************/
+//* *************************************************************/
 
 // DELETE
 const deleteNumber = (state) => {
   state.actualResult = state.actualResult.toString().slice(0, -1);
 };
 
-//**************************************************************/
+//* *************************************************************/
 
 // ALL-CLEAR
 
@@ -143,9 +128,9 @@ const allClearFn = (state) => {
   state.operation = undefined;
 };
 
-//**************************************************************/
+//* *************************************************************/
 
-//EVENT LISTENERS
+// EVENT LISTENERS
 
 const initGui = (state) => {
   getNumberElements().forEach((item) => {
@@ -155,14 +140,14 @@ const initGui = (state) => {
     });
   });
 
- //**************************************************************/
+  //* *************************************************************/
 
   getDeleteBtnElement().addEventListener('click', () => {
     deleteNumber(state);
     updateResultFn(state);
   });
 
-//**************************************************************/
+  //* *************************************************************/
   getOperatorElements().forEach((operator) => {
     operator.addEventListener('click', () => {
       choseOperation(operator.innerText, state);
@@ -170,14 +155,14 @@ const initGui = (state) => {
     });
   });
 
-//**************************************************************/
+  //* *************************************************************/
 
   getEqualBtnElement().addEventListener('click', () => {
     calculate(state);
     updateResultFn(state);
   });
 
-//**************************************************************/
+  //* *************************************************************/
 
   getAllClearElement().addEventListener('click', () => {
     allClearFn(state);
@@ -185,7 +170,7 @@ const initGui = (state) => {
   });
 };
 
-//**************************************************************/
+//* *************************************************************/
 
 if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => {
