@@ -1,2 +1,2 @@
 ## Calculator and tests
-Project made with AZaglewska during the INCODE web development course.
+Project made with @AZaglewska during the INCODE web development course.
